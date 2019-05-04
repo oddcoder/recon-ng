@@ -179,9 +179,11 @@ class Framework(cmd.Cmd):
 
     def to_unicode_str(self, obj, encoding='utf-8'):
         # checks if obj is a string and converts if not
-        if not isinstance(obj, str):
+        if isinstance(obj, bytes):
             obj = obj.decode('utf-8')
-        #obj = self.to_unicode(obj, encoding)
+        else:
+            obj = str(obj)
+            obj = self.to_unicode(obj, encoding)
         return obj
 
     def to_unicode(self, obj, encoding='utf-8'):
