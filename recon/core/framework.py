@@ -180,8 +180,8 @@ class Framework(cmd.Cmd):
     def to_unicode_str(self, obj, encoding='utf-8'):
         # checks if obj is a string and converts if not
         if not isinstance(obj, str):
-            obj = str(obj)
-        obj = self.to_unicode(obj, encoding)
+            obj = obj.decode('utf-8')
+        #obj = self.to_unicode(obj, encoding)
         return obj
 
     def to_unicode(self, obj, encoding='utf-8'):
@@ -710,7 +710,7 @@ class Framework(cmd.Cmd):
         result = self.query(query, values, path)
         # filter out tokens when not called from the get_key method
         if type(result) is list and 'get_key' not in [x[3] for x in inspect.stack()]:
-            result = [x for x in result if not x[0].endswith('_token')]
+            result = [x for x in result if not x[0].endswith(b'_token')]
         return result
 
     def _list_keys(self):
