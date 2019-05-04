@@ -1077,9 +1077,9 @@ class Framework(cmd.Cmd):
         '''Executes shell commands'''
         proc = subprocess.Popen(params, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         self.output('Command: %s' % (params))
-        stdout = proc.stdout.read()
-        stderr = proc.stderr.read()
-        if stdout: print('%s%s%s' % (Colors.O, stdout, Colors.N), end='')
+        stdout = proc.stdout.read().decode("utf-8")
+        stderr = proc.stderr.read().decode("utf-8")
+        if stdout: print('%s' % (stdout), end='')
         if stderr: print('%s%s%s' % (Colors.R, stderr, Colors.N), end='')
 
     def do_resource(self, params):
