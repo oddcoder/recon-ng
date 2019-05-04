@@ -59,7 +59,6 @@ class Recon(framework.Framework):
         self.init_workspace('default')
         if self._mode == Mode.CONSOLE:
             self.show_banner()
-        self.analytics = False
 
     #==================================================
     # SUPPORT METHODS
@@ -81,29 +80,6 @@ class Recon(framework.Framework):
             return local == remote
         except:
             return True
-
-    def _send_analytics(self, cd):
-        try:
-            cid_path = os.path.join(self._home, '.cid')
-            if not os.path.exists(cid_path):
-                # create the cid and file
-                import uuid
-                with open(cid_path, 'w') as fp:
-                    fp.write(str(uuid.uuid4()))
-            with open(cid_path) as fp:
-                cid = fp.read().strip()
-            data = {
-                    'v': 1,
-                    'tid': 'UA-52269615-2',
-                    'cid': cid,
-                    't': 'screenview',
-                    'an': 'Recon-ng',
-                    'av': __version__,
-                    'cd': cd
-                    }
-            self.request('http://www.google-analytics.com/collect', payload=data)
-        except:
-            pass
 
     def _init_global_options(self):
         self.register_option('nameserver', '8.8.8.8', True, 'nameserver for DNS interrogation')
@@ -431,10 +407,7 @@ class Recon(framework.Framework):
         # loop to support reload logic
         while True:
             y = self._loaded_modules[mod_dispname]
-            # send analytics information
             mod_loadpath = os.path.abspath(sys.modules[y.__module__].__file__)
-            if (self._home not in mod_loadpath) and self.analytics:
-                self._send_analytics(mod_dispname)
             # return the loaded module if in command line mode
             if self._mode == Mode.CLI:
                 return y
