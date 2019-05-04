@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 __author__    = 'Tim Tomes (@LaNMaSteR53)'
 __email__     = 'tjt1980[at]gmail.com'
@@ -11,13 +11,13 @@ import random
 import re
 import shutil
 import sys
-import __builtin__
+import builtins
 
 # import framework libs
 from recon.core import framework
 
 # set the __version__ variable based on the VERSION file
-execfile(os.path.join(sys.path[0], 'VERSION'))
+exec(compile(open(os.path.join(sys.path[0], 'VERSION')).read(), os.path.join(sys.path[0], 'VERSION'), 'exec'))
 
 # using stdout to spool causes tab complete issues
 # therefore, override print function
@@ -33,11 +33,9 @@ def spool_print(*args, **kwargs):
         if 'console' in kwargs and kwargs['console'] is False:
             return
         # new print function must still use the old print function via the backup
-        __builtin__._print(*args, **kwargs)
+        builtins._print(*args, **kwargs)
 # make a builtin backup of the original print function
-__builtin__._print = print
 # override the builtin print function with the new print function
-__builtin__.print = spool_print
 
 #=================================================
 # BASE CLASS
@@ -158,7 +156,7 @@ class Recon(framework.Framework):
             return True
         except ImportError as e:
             # notify the user of missing dependencies
-            self.error('Module \'%s\' disabled. Dependency required: \'%s\'' % (mod_dispname, e.message[16:]))
+            self.error('Module \'%s\' disabled. Dependency required: \'%s\'' % (mod_dispname, str(e)[16:]))
         except:
             # notify the user of errors
             self.print_exception()
@@ -181,7 +179,7 @@ class Recon(framework.Framework):
                 'Your mother called. She wants her menu driven UI back.',
                 'What\'s the samurai password?'
                 ]
-        print(random.choice(eggs))
+        print((random.choice(eggs)))
         return 
 
     #==================================================
@@ -321,13 +319,13 @@ class Recon(framework.Framework):
         banner = open(os.path.join(self.data_path, 'banner.txt')).read()
         banner_len = len(max(banner.split('\n'), key=len))
         print(banner)
-        print('{0:^{1}}'.format('%s[%s v%s, %s]%s' % (framework.Colors.O, self._name, __version__, __author__, framework.Colors.N), banner_len+8)) # +8 compensates for the color bytes
+        print(('{0:^{1}}'.format('%s[%s v%s, %s]%s' % (framework.Colors.O, self._name, __version__, __author__, framework.Colors.N), banner_len+8))) # +8 compensates for the color bytes
         print('')
         counts = [(self.loaded_category[x], x) for x in self.loaded_category]
         count_len = len(max([str(x[0]) for x in counts], key=len))
         for count in sorted(counts, reverse=True):
             cnt = '[%d]' % (count[0])
-            print('%s%s %s modules%s' % (framework.Colors.B, cnt.ljust(count_len+2), count[1].title(), framework.Colors.N))
+            print(('%s%s %s modules%s' % (framework.Colors.B, cnt.ljust(count_len+2), count[1].title(), framework.Colors.N)))
             # create dynamic easter egg command based on counts
             setattr(self, 'do_%d' % count[0], self._menu_egg)
         print('')
@@ -464,13 +462,13 @@ class Recon(framework.Framework):
     #==================================================
 
     def help_workspaces(self):
-        print(getattr(self, 'do_workspaces').__doc__)
+        print((getattr(self, 'do_workspaces').__doc__))
         print('')
         print('Usage: workspaces [list|add|select|delete]')
         print('')
 
     def help_snapshots(self):
-        print(getattr(self, 'do_snapshots').__doc__)
+        print((getattr(self, 'do_snapshots').__doc__))
         print('')
         print('Usage: snapshots [list|take|load|delete]')
         print('')

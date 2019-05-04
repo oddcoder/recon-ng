@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 import argparse
 import sys
@@ -8,7 +8,7 @@ from recon.core import base
 from recon.core.framework import Colors
 
 def output(string):
-    print('%s[*]%s %s' % (Colors.B, Colors.N, string))
+    print(('%s[*]%s %s' % (Colors.B, Colors.N, string)))
 
 def recon_cli(args):
     x = base.Recon(mode=base.Mode.CLI)
@@ -18,10 +18,10 @@ def recon_cli(args):
     # set given workspace
     if args.workspace:
         x.init_workspace(args.workspace)
-        print('WORKSPACE => %s' % (args.workspace))
+        print(('WORKSPACE => %s' % (args.workspace)))
     # run given global commands
     for command in args.global_commands:
-        print('GLOBAL COMMAND => %s' % (command))
+        print(('GLOBAL COMMAND => %s' % (command)))
         x.onecmd(command)
     # set given global options
     for option in args.goptions:
@@ -43,10 +43,10 @@ def recon_cli(args):
     y = x.do_load(args.module)
     # exit if module not successfully loaded
     if not y: return
-    print('MODULE => %s' % (args.module))
+    print(('MODULE => %s' % (args.module)))
     # run given module commands
     for command in args.module_commands:
-        print('MODULE COMMAND => %s' % (command))
+        print(('MODULE COMMAND => %s' % (command)))
         y.onecmd(command)
     # set given module options
     for option in args.options:
@@ -61,7 +61,8 @@ def recon_cli(args):
         y.do_run(None)
 
 description = '%%(prog)s - %s %s' % (base.__author__, base.__email__)
-parser = argparse.ArgumentParser(description=description, version=base.__version__)
+parser = argparse.ArgumentParser(description=description)
+parser.add_argument('--version', action='version', version=base.__version__)
 parser.add_argument('-w', help='load/create a workspace', metavar='workspace', dest='workspace', action='store')
 parser.add_argument('-C', help='runs a command at the global context', metavar='command', dest='global_commands' ,default=[], action='append')
 parser.add_argument('-c', help='runs a command at the module context (pre-run)', metavar='command', dest='module_commands' ,default=[], action='append')

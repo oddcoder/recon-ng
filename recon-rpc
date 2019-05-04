@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 __author__ = "Anthony Miller-Rhodes (@amillerrhodes)"
 
@@ -11,7 +11,7 @@ from recon.core import base
 
 def recon_rpc(args):
     if args.server_type.lower() == 'xmlrpc':
-        from SimpleXMLRPCServer import SimpleXMLRPCServer
+        from xmlrpc.server import SimpleXMLRPCServer
         RPCServer = SimpleXMLRPCServer
         server = RPCServer((args.address, args.port), allow_none=True)
     elif args.server_type.lower() == 'jsonrpc':
@@ -19,11 +19,11 @@ def recon_rpc(args):
         RPCServer = SimpleJSONRPCServer
         server = RPCServer((args.address, args.port))
     else:
-        print('[!] Invalid RPC server type \'%s\'.' % (args.server_type))
+        print(('[!] Invalid RPC server type \'%s\'.' % (args.server_type)))
         return
     server.register_multicall_functions()
     server.register_instance(ReconState())
-    print("[+] Serving on %s:%d" % (args.address, args.port))
+    print(("[+] Serving on %s:%d" % (args.address, args.port)))
     try:
         server.serve_forever()
     except KeyboardInterrupt:
