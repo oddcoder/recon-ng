@@ -15,7 +15,7 @@ class Module(BaseModule, GoogleWebMixin):
     def module_run(self, domains):
         for domain in domains:
             self.heading(domain, level=0)
-            base_query = 'site:' + domain
+            base_query = 'site:' + domain.decode("utf-8")
             regmatch = re.compile('//([^/]*\.%s)' % (domain))
             hosts = []
             # control variables
