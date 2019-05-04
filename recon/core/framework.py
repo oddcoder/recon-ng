@@ -368,7 +368,7 @@ class Framework(cmd.Cmd):
         return [(x[1],x[2]) for x in self.query('PRAGMA table_info(\'%s\')' % (table))]
 
     def get_tables(self):
-        return [x[0] for x in self.query('SELECT name FROM sqlite_master WHERE type=\'table\'') if x[0] not in ['dashboard']]
+        return [x[0].decode('utf-8') for x in self.query('SELECT name FROM sqlite_master WHERE type=\'table\'') if x[0] not in ['dashboard']]
 
     #==================================================
     # ADD METHODS
