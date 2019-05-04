@@ -923,8 +923,6 @@ class Framework(cmd.Cmd):
 
     def do_add(self, params):
         '''Adds records to the database'''
-        import pdb
-        pdb.set_trace()
         table = ''
         # search params for table names
         for table_name in self.get_tables():

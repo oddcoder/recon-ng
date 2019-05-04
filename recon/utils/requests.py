@@ -2,7 +2,6 @@ import json
 import socket
 import ssl
 import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
 
 # create a global ssl context that ignores certificate validation
 if hasattr(ssl, '_create_unverified_context'): 
@@ -10,7 +9,7 @@ if hasattr(ssl, '_create_unverified_context'):
 
 def encode_payload(in_dict):
     out_dict = {}
-    for k, v in in_dict.items():
+    for k, v in list(in_dict.items()):
         if isinstance(v, str):
             v = v.encode('utf8')
         elif isinstance(v, str):
@@ -23,7 +22,7 @@ class Request(object):
 
     def __init__(self, **kwargs):
         '''Initializes control parameters as class attributes.'''
-        self.user_agent = "Python-urllib/%s" % (urllib2.__version__) if 'user_agent' not in kwargs else kwargs['user_agent']
+        self.user_agent = "Python-urllib/%s" % (urllib.request.__version__) if 'user_agent' not in kwargs else kwargs['user_agent']
         self.debug = False if 'debug' not in kwargs else kwargs['debug']
         self.proxy = None if 'proxy' not in kwargs else kwargs['proxy']
         self.timeout = None if 'timeout' not in kwargs else kwargs['timeout']
@@ -112,13 +111,13 @@ class ResponseObject(object):
         # set inherited properties
         self.url = resp.geturl()
         self.status_code = resp.getcode()
-        self.headers = resp.headers.dict
+        self.headers = dict(resp.headers)
         # detect and set encoding property
-        self.encoding = resp.headers.getparam('charset')
-        self.content_type = resp.headers.getheader('content-type')
+        self.encoding = resp.headers.get_content_charset()
+        self.content_type = resp.headers.get('content-type')
         self.cookiejar = cookiejar
         # deflate payload if needed
-        if resp.headers.getheader('content-encoding') == 'gzip':
+        if resp.headers.get('content-encoding') == 'gzip':
             self.deflate()
 
     def deflate(self):
@@ -130,7 +129,7 @@ class ResponseObject(object):
         try:
             return self.raw.decode(self.encoding)
         except (UnicodeDecodeError, TypeError):
-            return ''.join([char for char in self.raw if ord(char) in [9,10,13] + list(range(32, 126))])
+            return ''.join([chr(char) for char in self.raw if char in [9,10,13] + list(range(32, 126))])
 
     @property
     def json(self):
