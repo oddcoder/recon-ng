@@ -3,7 +3,7 @@ dnspython
 jsonrpclib
 lxml
 mechanize
-slowaes
+pycrypto
 XlsxWriter
 olefile
 PyPDF2

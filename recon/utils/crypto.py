@@ -1,6 +1,7 @@
-import aes
+from Crypto.Cipher import AES
 
 def aes_decrypt(ciphertext, key, iv):
     decoded = ciphertext.decode('base64')
-    password = aes.decryptData(key, iv.encode('utf-8') + decoded)
+    cryptor = AES.new(key, AES.MODE_CBC, iv)
+    password = cryptor.decrypt(decoded)
     return str(password, 'utf-8')
