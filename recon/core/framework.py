@@ -365,7 +365,7 @@ class Framework(cmd.Cmd):
                 return results
 
     def get_columns(self, table):
-        return [(x[1],x[2]) for x in self.query('PRAGMA table_info(\'%s\')' % (table))]
+        return [(x[1].decode("utf-8"),x[2].decode("utf-8")) for x in self.query('PRAGMA table_info(\'%s\')' % (table))]
 
     def get_tables(self):
         return [x[0].decode('utf-8') for x in self.query('SELECT name FROM sqlite_master WHERE type=\'table\'') if x[0] not in ['dashboard']]
@@ -921,6 +921,8 @@ class Framework(cmd.Cmd):
 
     def do_add(self, params):
         '''Adds records to the database'''
+        import pdb
+        pdb.set_trace()
         table = ''
         # search params for table names
         for table_name in self.get_tables():
