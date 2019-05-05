@@ -34,10 +34,10 @@ def strtoip(ipstr):
     """convert an IP address in string form to numeric."""
     res = 0
     count = 0
-    n = string.split(ipstr, '.')
+    n = ipstr.split('.')
     for i in n:
         res = res << 8
-        ot = string.atoi(i)
+        ot = int(i)
         if ot < 0 or ot > 255:
             raise ValueError("invalid IP octet")
         res = res + ot
