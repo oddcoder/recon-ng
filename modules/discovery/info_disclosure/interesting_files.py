@@ -79,7 +79,7 @@ class Module(BaseModule):
                         if download and not filename.endswith("/"):
                             filepath = '%s/%s_%s_%s' % (self.workspace, protocol, host, filename)
                             dl = open(filepath, 'w')
-                            dl.write(resp.text.encode(resp.encoding) if resp.encoding else resp.text)
+                            dl.write(resp.text)
                             dl.close()
                         cnt += 1
                     else:
