@@ -13,11 +13,9 @@ class Module(BaseModule, GoogleWebMixin):
     }
 
     def module_run(self, domains):
-        import pdb
-        pdb.set_trace()
         for domain in domains:
             self.heading(domain, level=0)
-            base_query = 'site:' + domain.decode("utf-8")
+            base_query = 'site:' + domain
             regmatch = re.compile('//([^/]*\.%s)' % (domain))
             hosts = []
             # control variables

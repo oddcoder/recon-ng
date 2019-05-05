@@ -14,7 +14,7 @@ class Module(BaseModule):
         headers = {'Accept': 'application/json'}
         for domain in domains:
             self.heading(domain, level=0)
-            url = 'http://whois.arin.net/rest/pocs;domain=%s' % (domain.decode("utf-8"))
+            url = 'http://whois.arin.net/rest/pocs;domain=%s' % (domain)
             self.verbose('URL: %s' % url)
             resp = self.request(url, headers=headers)
             if 'Your search did not yield any results.' in resp.text:
@@ -37,5 +37,5 @@ class Module(BaseModule):
                     state = poc['iso3166-2']['$'].upper() if 'iso3166-2' in poc else None
                     region = ', '.join([x for x in [city, state] if x])
                     country = poc['iso3166-1']['name']['$'].title()
-                    if email.lower().endswith(domain.lower().decode('utf-8')):
+                    if email.lower().endswith(domain.lower()):
                         self.add_contacts(first_name=fname, last_name=lname, email=email, title=title, region=region, country=country)

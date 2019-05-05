@@ -17,6 +17,7 @@ class Module(BaseModule):
     def module_run(self, ipaddrs):
         limit = self.options['limit']
         for ipaddr in ipaddrs:
+            ipaddr = ipaddr
             self.heading(ipaddr, level=0)
             query = 'ip:%s' % (ipaddr)
             results = self.search_shodan_api(query, limit)

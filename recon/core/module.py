@@ -181,7 +181,7 @@ class BaseModule(framework.Framework):
                 sources = [x[:len(x)] for x in results]
                 #raise framework.FrameworkException('Too many columns of data as source input.')
             else:
-                sources = [x[0] for x in results]
+                sources = [x[0].decode("utf-8") for x in results]
         elif os.path.exists(params):
             sources = open(params).read().split()
         else:

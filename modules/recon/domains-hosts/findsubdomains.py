@@ -10,10 +10,7 @@ class Module(BaseModule):
     }
 
     def module_run(self, domains):
-        import pdb
-        pdb.set_trace()
         for domain in domains:
-            domain = domain.decode("utf-8")
             self.heading(domain, level=0)
             resp = self.request(url='https://findsubdomains.com/subdomains-of/%s' % domain)
 

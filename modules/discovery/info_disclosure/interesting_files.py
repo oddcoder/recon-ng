@@ -60,7 +60,6 @@ class Module(BaseModule):
             ]
         cnt = 0
         for host in hosts:
-            host = host.decode("utf-8")
             for (filename, verify) in filetypes:
                 url = '%s://%s:%d/%s' % (protocol, host, port, filename)
                 try:
