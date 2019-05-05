@@ -22,7 +22,7 @@ class Module(BaseModule):
                 self.error('Invalid JSON response for \'%s\'.\n%s' % (host, resp.text))
                 continue
             region = ', '.join([str(jsonobj[x]).title() for x in ['city', 'region_name'] if jsonobj[x]]) or None
-            country = jsonobj['country_name'].title()
+            country = jsonobj['country_name'].title() if jsonobj['country_name'] else None
             latitude = str(jsonobj['latitude'])
             longitude = str(jsonobj['longitude'])
             self.output('%s - %s,%s - %s' % (host, latitude, longitude, ', '.join([x for x in [region, country] if x])))

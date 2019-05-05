@@ -695,7 +695,7 @@ class Framework(cmd.Cmd):
         rows = self._query_keys('SELECT value FROM keys WHERE name=? AND value NOT NULL', (name,))
         if not rows:
             return None
-        return rows[0][0]
+        return rows[0][0].decode("utf-8")
 
     def add_key(self, name, value):
         result = self._query_keys('UPDATE keys SET value=? WHERE name=?', (value, name))
