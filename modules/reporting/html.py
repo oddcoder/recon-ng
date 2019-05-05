@@ -21,7 +21,7 @@ class Module(BaseModule):
         table_content = ''
         table_show = '<a id="show-%s" href="javascript:showhide(\'%s\');"><p>[+] %s</p></a>' % (table, table, table.replace('_', ' ').title())
         table_hide = '<a id="hide-%s" href="javascript:showhide(\'%s\');"><p>[-] %s</p><hr></a>' % (table, table, table.replace('_', ' ').title())
-        columns = [x[1] for x in self.query('PRAGMA table_info(\'%s\')' % (table))]
+        columns = [x[1].decode("utf-8") for x in self.query('PRAGMA table_info(\'%s\')' % (table))]
         row_headers = '<tr><th>%s</th></tr>' % ('</th><th>'.join(columns))
         rows = self.query('SELECT "%s" FROM "%s" ORDER BY 1' % ('", "'.join(columns), table))
         if not rows: return ''

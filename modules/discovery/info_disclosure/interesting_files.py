@@ -30,7 +30,10 @@ class Module(BaseModule):
         f = gzip.GzipFile(mode='rb', fileobj=inbuffer)
         try:
             data_ct = f.read()
-        except IOError:
+        except TypeError:
+            # not really gunzip data
+            f.close()
+            return data_gz
             pass
         f.close()
         return data_ct
@@ -57,6 +60,7 @@ class Module(BaseModule):
             ]
         cnt = 0
         for host in hosts:
+            host = host.decode("utf-8")
             for (filename, verify) in filetypes:
                 url = '%s://%s:%d/%s' % (protocol, host, port, filename)
                 try:
